@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nichole's First Valentine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Courier+Prime:wght@400;700&family=Oswald:wght@300;500;700&family=Dancing+Script:wght@400;700&family=Fleur+De+Leah&family=Great+Vibes&family=Kaushan+Script&family=Lato:wght@300;400;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Share+Tech+Mono&family=Permanent+Marker&family=Tilt+Prism&family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Lato', 'sans-serif'],
+              serif: ['Playfair Display', 'serif'],
+              mono: ['Share Tech Mono', 'monospace'],
+              hand: ['"Dancing Script"', 'cursive'],
+              romantic: ['"Great Vibes"', 'cursive'],
+              brush: ['"Kaushan Script"', 'cursive'],
+              handmade: ['"Permanent Marker"', 'cursive'],
+              fleur: ['"Fleur De Leah"', 'cursive'],
+              prism: ['"Tilt Prism"', 'cursive'],
+              cinzel: ['"Cinzel"', 'serif'],
+              oswald: ['"Oswald"', 'sans-serif'],
+              courier: ['"Courier Prime"', 'monospace'],
+              garamond: ['"EB Garamond"', 'serif'],
+              caveat: ['"Caveat"', 'cursive'],
+            },
+            colors: {
+              cheese: '#FFC83D',
+              vanuatu: '#008B8B',
+              medic: '#006B6B', // Deep teal for paramedic
+              gold: '#FFD700',
+              loki: '#468966',
+              cream: '#FFFDD0',
+            },
+            animation: {
+              'spin-slow': 'spin 12s linear infinite',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body { margin: 0; padding: 0; overflow-x: hidden; }
+      /* Hide scrollbar */
+      ::-webkit-scrollbar { width: 0px; background: transparent; }
+      
+      /* Smooth scrolling behavior */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      .glitch {
+        position: relative;
+      }
+      .glitch::before,
+      .glitch::after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .glitch::before {
+        left: 2px;
+        text-shadow: -1px 0 red;
+        clip: rect(44px, 450px, 56px, 0);
+        animation: glitch-anim-1 5s infinite linear alternate-reverse;
+      }
+      .glitch::after {
+        left: -2px;
+        text-shadow: -1px 0 blue;
+        clip: rect(44px, 450px, 56px, 0);
+        animation: glitch-anim-2 5s infinite linear alternate-reverse;
+      }
+      @keyframes glitch-anim-1 {
+        0% { clip: rect(20px, 9999px, 86px, 0); }
+        100% { clip: rect(69px, 9999px, 14px, 0); }
+      }
+      @keyframes glitch-anim-2 {
+        0% { clip: rect(2px, 9999px, 3px, 0); }
+        100% { clip: rect(98px, 9999px, 8px, 0); }
+      }
+      
+      /* Gloss shine effect for cards */
+      @keyframes shine {
+        100% { left: 125%; }
+      }
+      .group:hover .animate-shine {
+        animation: shine 1s;
+      }
+
+      /* CRT Scanline Effect */
+      .scanlines {
+        background: linear-gradient(
+          to bottom,
+          rgba(255,255,255,0),
+          rgba(255,255,255,0) 50%,
+          rgba(0,0,0,0.1) 50%,
+          rgba(0,0,0,0.1)
+        );
+        background-size: 100% 4px;
+      }
+      
+      /* Panem Glassmorphism (Hunger Games) */
+      .panem-card {
+        background: rgba(13, 13, 13, 0.6);
+        backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.15); /* Specular Edge */
+        box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(212, 175, 55, 0.05);
+        color: #F2F2F2;
+        transition: all 0.3s ease;
+      }
+      .panem-card:hover { 
+        border-color: #00F2FF; 
+        cursor: crosshair; 
+        box-shadow: 0 10px 50px -10px rgba(0, 242, 255, 0.2), inset 0 0 20px rgba(0, 242, 255, 0.1);
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "framer-motion": "https://esm.sh/framer-motion@^12.34.0",
+    "canvas-confetti": "https://esm.sh/canvas-confetti@^1.9.4",
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
