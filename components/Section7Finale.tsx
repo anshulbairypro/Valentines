@@ -93,7 +93,7 @@ export const Section7Finale: React.FC = () => {
           </h2>
           <div className="h-16 w-[1px] bg-gradient-to-b from-transparent via-rose-300 to-transparent mb-8"></div>
           <p className="font-sans text-lg md:text-xl max-w-2xl text-rose-50 font-light leading-relaxed">
-            I just need to tell you how you are...<br/>
+            I just need to tell you how you are so brave, beautiful & kind...<br/>
             <span className="font-serif italic text-3xl md:text-4xl block mt-6 text-white">You are my absolute baby!!</span>
           </p>
           
@@ -129,7 +129,7 @@ export const Section7Finale: React.FC = () => {
         <NarrativeBlock 
           align="right"
           header="World Tours & Dogs"
-          detail="Family trips across the globe and at least 2 dogs—that's non-negotiable."
+          detail="Family trips across the globe and at least 2 dogs: that's Non-Negotiable!!"
         />
 
         <NarrativeBlock 

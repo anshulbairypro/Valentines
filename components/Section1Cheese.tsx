@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, Variants, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ArrowRight, ArrowLeft, Check, X, AlertCircle, ChevronDown, MousePointer2 } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Check, X, AlertCircle, ChevronDown } from 'lucide-react';
 
 // --- SVGs ---
 
@@ -35,7 +35,7 @@ const CheeseMoonSVG = ({ className }: { className?: string }) => (
 
 const FloatingCrumb = ({ size, x, y, delay }: { size: number, x: number, y: number, delay: number }) => (
   <motion.div
-    initial={{ opacity: 0, scale: 0 }}
+    initial={{ opacity: 1, scale: 0 }}
     animate={{ opacity: 1, scale: 1, y: [y, y - 20, y], rotate: [0, 180, 360] }}
     transition={{ duration: 10, repeat: Infinity, delay, ease: "easeInOut" }}
     className="absolute bg-yellow-300/60 rounded-full blur-[1px]"
@@ -173,7 +173,8 @@ export const Section1Cheese: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full h-full overflow-hidden">
+    // UPDATED: Changed from h-full to h-screen to force height on deployment
+    <div className="relative w-full h-screen overflow-hidden">
       
       {/* Background Layer */}
       <motion.div 

@@ -30,7 +30,7 @@ const GALLERY_ITEMS: GalleryItem[] = [
     title: "THE STARE",
     text: "I literally get lost looking at you.",
     src: "/videos/lego-batman.mp4",
-    aspectClass: "aspect-video"
+    aspectClass: "aspect-square"
   },
   {
     id: 3,
@@ -42,7 +42,7 @@ const GALLERY_ITEMS: GalleryItem[] = [
   {
     id: 4,
     title: "MY HERO",
-    text: "You really are my Mary Jane.",
+    text: "You really are my MJ.",
     src: "/videos/spiderman.mp4",
     aspectClass: "aspect-[9/16]"
   },
@@ -52,6 +52,13 @@ const GALLERY_ITEMS: GalleryItem[] = [
     text: "Just another angle of me.",
     src: "/videos/oggy.mp4",
     aspectClass: "aspect-[4/3]"
+  },
+  {
+    id: 6,
+    title: "LUCKY ENOUGH",
+    text: "Say what can make me feel...",
+    src: "/videos/lucky-enough.mp4",
+    aspectClass: "aspect-[3/4]"
   }
 ];
 
@@ -92,6 +99,7 @@ const VideoCard = ({ item }: { item: GalleryItem }) => {
   };
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.stopPropagation(); // Prevent toggling play/pause
     const manualChange = Number(e.target.value);
     if (videoRef.current) {
       videoRef.current.currentTime = (videoRef.current.duration / 100) * manualChange;
@@ -131,29 +139,39 @@ const VideoCard = ({ item }: { item: GalleryItem }) => {
           </div>
         )}
 
-        {/* BOTTOM CONTROLS BAR */}
+        {/* BOTTOM CONTROLS BAR - UPDATED STYLING */}
         <div 
-          className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 to-transparent flex items-center gap-3 transition-opacity duration-300"
-          onClick={(e) => e.stopPropagation()} // Prevent playing when clicking controls
+          className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-center gap-4 transition-opacity duration-300 z-20"
+          onClick={(e) => e.stopPropagation()} // Prevent playing when clicking controls background
         >
           {/* Play/Pause Mini Button */}
-          <button onClick={togglePlay} className="text-white hover:text-rose-400 transition-colors">
-            {isPlaying ? <Pause size={20} fill="currentColor" /> : <Play size={20} fill="currentColor" />}
+          <button 
+            onClick={togglePlay} 
+            className="text-white hover:text-rose-400 transition-colors p-1"
+            aria-label={isPlaying ? "Pause" : "Play"}
+          >
+            {isPlaying ? <Pause size={24} fill="currentColor" /> : <Play size={24} fill="currentColor" />}
           </button>
 
-          {/* Seek Bar (Progress) */}
+          {/* Seek Bar (Progress) - CUSTOM STYLED */}
           <input 
             type="range" 
             min="0" 
             max="100" 
             value={progress} 
             onChange={handleSeek}
-            className="flex-grow h-1 bg-white/30 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:rounded-full hover:[&::-webkit-slider-thumb]:scale-125 transition-all"
+            className="flex-grow h-1.5 bg-white/30 rounded-full appearance-none cursor-pointer outline-none
+                       [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:rounded-full hover:[&::-webkit-slider-thumb]:scale-125 transition-all
+                       [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-none [&::-moz-range-thumb]:rounded-full"
           />
 
           {/* Mute Toggle */}
-          <button onClick={toggleMute} className="text-white/80 hover:text-white transition-colors">
-            {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+          <button 
+             onClick={toggleMute} 
+             className="text-white/80 hover:text-white transition-colors p-1"
+             aria-label={isMuted ? "Unmute" : "Mute"}
+          >
+            {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
           </button>
         </div>
       </div>
@@ -167,25 +185,8 @@ const VideoCard = ({ item }: { item: GalleryItem }) => {
 };
 
 export const Section6Gallery: React.FC = () => {
-  // FINALE VIDEO LOGIC
-  const finaleVideoRef = useRef<HTMLVideoElement>(null);
-  const [finalePlaying, setFinalePlaying] = useState(false);
-  const [finaleMuted, setFinaleMuted] = useState(false);
-  const [finaleProgress, setFinaleProgress] = useState(0);
-
-  const toggleFinalePlay = () => {
-    if (finaleVideoRef.current) {
-      if (finalePlaying) {
-        finaleVideoRef.current.pause();
-      } else {
-        finaleVideoRef.current.play();
-      }
-      setFinalePlaying(!finalePlaying);
-    }
-  };
-
   return (
-    <div className="w-full bg-[#050505] flex flex-col items-center pt-32 pb-0">
+    <div className="w-full bg-[#050505] flex flex-col items-center pt-32 pb-20">
       
       {/* HEADER */}
       <div className="mb-20 text-center px-4">
@@ -194,82 +195,18 @@ export const Section6Gallery: React.FC = () => {
       </div>
 
       {/* FEED */}
-      <div className="w-full flex flex-col gap-24 px-4 pb-32">
+      <div className="w-full flex flex-col gap-24 px-4 pb-12">
         {GALLERY_ITEMS.map((item) => (
           <VideoCard key={item.id} item={item} />
         ))}
       </div>
 
-      {/* FINALE VIDEO: LUCKY ENOUGH (With Controls) */}
-      <div className="relative w-full h-screen mt-20 group">
-        <video
-          ref={finaleVideoRef}
-          src="/videos/lucky-enough.mp4"
-          className="w-full h-full object-cover cursor-pointer"
-          muted={finaleMuted}
-          loop
-          playsInline
-          onClick={toggleFinalePlay}
-          onTimeUpdate={(e) => {
-            const vid = e.currentTarget;
-            if(vid.duration) setFinaleProgress((vid.currentTime / vid.duration) * 100);
-          }}
-        />
-        
-        {/* Simple Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50 pointer-events-none"></div>
-
-        {/* Big Play Button for Finale (Before Start) */}
-        {!finalePlaying && (
-           <div 
-             onClick={toggleFinalePlay}
-             className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/60 cursor-pointer hover:bg-black/50 transition-colors"
-           >
-              <motion.div 
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                className="w-20 h-20 bg-white/10 border border-white/50 rounded-full flex items-center justify-center backdrop-blur-md shadow-[0_0_30px_rgba(255,255,255,0.2)]"
-              >
-                 <Play size={40} fill="white" className="ml-2 text-white" />
-              </motion.div>
-              <p className="mt-4 text-white/80 font-serif tracking-widest text-sm uppercase">Tap to Reveal</p>
-           </div>
-        )}
-
-        {/* Scroll Hint (Only shows when playing) */}
-        {finalePlaying && (
-          <div className="absolute bottom-20 w-full flex flex-col items-center justify-center animate-bounce z-20 pointer-events-none">
-            <span className="text-white/80 text-xs uppercase tracking-[0.3em] mb-2 bg-black/20 backdrop-blur-sm px-4 py-1 rounded-full">
-              Scroll for Finale
-            </span>
-            <ChevronDown className="text-white w-8 h-8 drop-shadow-md" />
-          </div>
-        )}
-
-        {/* Finale Controls (Visible on Hover or Pause) */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 flex items-center gap-4 bg-gradient-to-t from-black via-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30">
-           <button onClick={toggleFinalePlay} className="text-white hover:text-rose-400">
-             {finalePlaying ? <Pause size={24} fill="currentColor" /> : <Play size={24} fill="currentColor" />}
-           </button>
-           
-           <input 
-             type="range" 
-             value={finaleProgress}
-             onChange={(e) => {
-               if(finaleVideoRef.current) finaleVideoRef.current.currentTime = (finaleVideoRef.current.duration / 100) * Number(e.target.value);
-             }}
-             className="flex-grow h-1 bg-white/30 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:rounded-full"
-           />
-
-           <button onClick={() => {
-              if (finaleVideoRef.current) {
-                finaleVideoRef.current.muted = !finaleVideoRef.current.muted;
-                setFinaleMuted(finaleVideoRef.current.muted);
-              }
-           }} className="text-white">
-             {finaleMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
-           </button>
-        </div>
+      {/* FINAL SCROLL INDICATOR */}
+      <div className="flex flex-col items-center justify-center animate-bounce opacity-50 mt-12">
+        <span className="text-white/60 text-xs uppercase tracking-[0.2em] mb-2">
+          Scroll for Big Question
+        </span>
+        <ChevronDown className="text-white w-6 h-6" />
       </div>
 
     </div>

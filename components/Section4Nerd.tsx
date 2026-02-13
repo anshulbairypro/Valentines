@@ -99,12 +99,13 @@ export const Section4Nerd: React.FC<Section4NerdProps> = ({ containerRef }) => {
   };
 
   return (
+    // UPDATED: Removed initial={{ opacity: 0 }} and set min-h-screen to guarantee visibility
     <motion.div 
-      className="relative w-full h-full overflow-hidden flex flex-col justify-center items-center transition-colors duration-700"
-      initial={{ width: "95%", opacity: 0 }}
-      whileInView={{ width: "100%", opacity: 1 }}
+      className="relative w-full min-h-screen overflow-hidden flex flex-col justify-center items-center transition-colors duration-700"
+      initial={{ width: "95%" }}
+      whileInView={{ width: "100%" }}
       transition={{ duration: 1.5, ease: "easeInOut" }}
-      viewport={{ once: false }}
+      viewport={{ once: true }}
     >
       
       {/* 1. SCENE: ART (The Creative Spark) - VISUAL REFACTOR */}
